@@ -1,9 +1,5 @@
 package com.squareup.anvil.compiler.k2.fir.internal
 
-import com.squareup.anvil.compiler.k2.fir.contributesBindingFqName
-import com.squareup.anvil.compiler.k2.fir.contributesMultibindingFqName
-import com.squareup.anvil.compiler.k2.fir.contributesSubcomponentFqName
-import com.squareup.anvil.compiler.k2.fir.contributesToFqName
 import org.jetbrains.kotlin.fir.FirAnnotationContainer
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.declarations.FirDeclaration
@@ -90,9 +86,9 @@ internal fun FirAnnotationCall.requireReplacesArgument(session: FirSession): Lis
 
 private fun replacesIndex(annotationFqName: FqName): Int {
   return when (annotationFqName) {
-    contributesToFqName -> 1
-    contributesBindingFqName, contributesMultibindingFqName -> 2
-    contributesSubcomponentFqName -> 4
+    Names.anvil.contributesTo -> 1
+    Names.anvil.contributesBinding, Names.anvil.contributesMultibinding -> 2
+    Names.anvil.contributesSubcomponent -> 4
     else -> throw NotImplementedError(
       "Couldn't find index of replaces argument for $annotationFqName.",
     )

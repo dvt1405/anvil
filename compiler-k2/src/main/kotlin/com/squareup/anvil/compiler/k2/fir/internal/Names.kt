@@ -1,7 +1,7 @@
 package com.squareup.anvil.compiler.k2.fir.internal
 
 import com.squareup.anvil.annotations.ExperimentalAnvilApi
-import org.jetbrains.kotlin.fir.lightTree.converter.nameAsSafeName
+import com.squareup.anvil.compiler.k2.fir.internal.tree.letIf
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
@@ -11,6 +11,7 @@ import kotlin.properties.ReadOnlyProperty
 internal val Names.identifier: ReadOnlyProperty<Any?, Name>
   get() = ReadOnlyProperty { _, p -> Name.identifier(p.name) }
 
+@Suppress("ClassName")
 internal object Names {
 
   val inject get() = javax.inject.inject
@@ -31,10 +32,20 @@ internal object Names {
   }
 
   object anvil {
-    val contributesBinding = "com.squareup.anvil.annotations.ContributesBinding".fqn()
-    val contributesTo = "com.squareup.anvil.annotations.ContributesTo".fqn()
-    val contributesSubcomponent = "com.squareup.anvil.annotations.ContributesSubcomponent".fqn()
-    val mergeComponent = "com.squareup.anvil.annotations.MergeComponent".fqn()
+    private val annotations = "com.squareup.anvil.annotations".fqn()
+    val contributesBinding by annotations.child()
+    val contributesMultibinding by annotations.child()
+    val contributesTo by annotations.child()
+    val contributesSubcomponent by annotations.child()
+
+    val contributesSubcomponentFactory = annotations.child("ContributesSubcomponent.Factory")
+
+    val mergeComponent by annotations.child()
+    val mergeSubcomponent by annotations.child()
+    val mergeModules by annotations.child()
+    val mergeInterfaces by annotations.child()
+
+    val internalBindingMarker = annotations.child("internal.InternalBindingMarker")
   }
 
   object dagger {
@@ -46,39 +57,17 @@ internal object Names {
 
     val subcomponent = "dagger.Subcomponent".fqn()
   }
+}
 
-  object foo {
-    val packageFqName = "foo".fqn()
-    val testComponent = "foo.TestComponent".fqn()
-    val injectClass = "foo.InjectClass".fqn()
+internal fun FqName.child(capitalize: Boolean = true): ReadOnlyProperty<Any?, FqName> {
+  return ReadOnlyProperty { _, p ->
+    child(p.name.letIf(capitalize) { it.capitalize() })
   }
 }
 
-internal fun ClassId.factory(): ClassId {
-  return joinSimpleNames(suffix = "_Factory")
-}
+internal fun String.capitalize(): String = replaceFirstChar(Char::uppercaseChar)
 
-internal fun ClassId.isFactory() = shortClassName.asString().endsWith("_Factory")
-internal fun ClassId.isFactoryDelegate() = shortClassName.asString().endsWith("_FactoryDelegate")
-
-internal fun ClassId.hasAnvilPrefix(): Boolean {
-  return shortClassName.asString().startsWith("Anvil_")
-}
-
-internal fun ClassId.anvilPrefix(): ClassId {
-  return joinSimpleNames(prefix = "Anvil_")
-}
-
-internal fun ClassId.removeAnvilPrefix(): ClassId {
-  return ClassId(
-    packageFqName = packageFqName,
-    topLevelName = relativeClassName.pathSegments()
-      .joinToString(".", "Anvil_")
-      .nameAsSafeName(),
-  )
-}
-
-internal fun FqName.anvilPrefix(): FqName = parent().child("Anvil_${shortName()}".nameAsSafeName())
+public fun FqName.child(nameString: String): FqName = child(Name.identifier(nameString))
 
 /**
  * Joins the simple names of a class with the given [separator], [prefix], and [suffix].

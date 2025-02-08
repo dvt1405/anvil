@@ -41,8 +41,6 @@ public object CommonNames {
 }
 
 public fun FqName.child(nameString: String): FqName = child(Name.identifier(nameString))
-public operator fun Compile2Result.invoke(fqName: FqName): Class<*> =
-  classLoader.loadClass(fqName)
 
 public operator fun ClassLoader.get(fqName: FqName): Class<*> = loadClass(fqName)
 public operator fun ClassLoader.get(fqName: String): Class<*> = loadClass(fqName)

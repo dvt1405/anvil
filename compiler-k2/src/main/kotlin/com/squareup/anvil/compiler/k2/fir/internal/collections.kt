@@ -1,15 +1,5 @@
 package com.squareup.anvil.compiler.k2.fir.internal
 
-import com.squareup.anvil.compiler.k2.fir.singleOrEmpty
-
-private val truePredicate: (Any?) -> Boolean = { true }
-
-/**
- * Returns single element, or `null` if the collection is empty. Unlike [singleOrNull] this
- * method throws an exception if more than one element is found.
- */
-internal fun <T> Iterable<T>.singleOrEmpty(): T? = singleOrEmpty(truePredicate)
-
 /**
  * Transforms the elements of the receiver collection and adds the results to a set.
  *
