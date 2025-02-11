@@ -173,6 +173,7 @@ public final class com/squareup/anvil/compiler/testing/TestNamesKt {
 	public static final fun getDaggerModule3Info (Lcom/squareup/anvil/compiler/testing/compilation/Compile2Result;)Lio/github/classgraph/ClassInfo;
 	public static final fun getDaggerModule4 (Lcom/squareup/anvil/compiler/testing/compilation/Compile2Result;)Ljava/lang/Class;
 	public static final fun getDaggerModule4Info (Lcom/squareup/anvil/compiler/testing/compilation/Compile2Result;)Lio/github/classgraph/ClassInfo;
+	public static final fun getGeneratedBindingModule (Ljava/lang/Class;)Ljava/lang/Class;
 	public static final fun getInjectClass (Lcom/squareup/anvil/compiler/testing/compilation/Compile2Result;)Ljava/lang/Class;
 	public static final fun getInjectClassFactory (Lcom/squareup/anvil/compiler/testing/compilation/Compile2Result;)Ljava/lang/Class;
 	public static final fun getInjectClassFactoryInfo (Lcom/squareup/anvil/compiler/testing/compilation/Compile2Result;)Lio/github/classgraph/ClassInfo;
@@ -193,6 +194,12 @@ public final class com/squareup/anvil/compiler/testing/TestNamesKt {
 	public static final fun getSomeClassInnerInterfaceInfo (Lcom/squareup/anvil/compiler/testing/compilation/Compile2Result;)Lio/github/classgraph/ClassInfo;
 	public static final fun getSubcomponentInterface (Lcom/squareup/anvil/compiler/testing/compilation/Compile2Result;)Ljava/lang/Class;
 	public static final fun getSubcomponentInterfaceInfo (Lcom/squareup/anvil/compiler/testing/compilation/Compile2Result;)Lio/github/classgraph/ClassInfo;
+}
+
+public final class com/squareup/anvil/compiler/testing/TestUtilsKt {
+	public static final fun getContributesToAnnotation (Ljava/lang/Class;)Lcom/squareup/anvil/annotations/ContributesTo;
+	public static final fun getDaggerModule (Ljava/lang/Class;)Ldagger/Module;
+	public static final fun isAbstract (Ljava/lang/reflect/Member;)Z
 }
 
 public final class com/squareup/anvil/compiler/testing/classgraph/ClassGraphKt {

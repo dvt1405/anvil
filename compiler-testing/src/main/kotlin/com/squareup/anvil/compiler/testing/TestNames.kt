@@ -129,3 +129,5 @@ public val Compile2Result.anyQualifier: Class<*>
   get() = classLoader.loadClass(TestNames.anyQualifier)
 public val Compile2Result.anyQualifierInfo: ClassInfo
   get() = classGraph.getClassInfo(TestNames.anyQualifier)
+public val Class<*>.generatedBindingModule: Class<*>
+  get() = classLoader.loadClass("${kotlin.qualifiedName}BindingModule")

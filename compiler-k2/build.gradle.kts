@@ -32,4 +32,5 @@ dependencies {
   testImplementation(libs.kase)
   testImplementation(libs.kotest.assertions.api)
   testImplementation(libs.kotest.assertions.core.jvm)
+  testImplementation(libs.truth)
 }
