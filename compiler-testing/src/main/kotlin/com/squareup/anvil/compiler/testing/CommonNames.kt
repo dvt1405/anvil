@@ -3,8 +3,11 @@ package com.squareup.anvil.compiler.testing
 import com.squareup.anvil.compiler.testing.classgraph.getClassInfo
 import com.squareup.anvil.compiler.testing.classgraph.loadClass
 import com.squareup.anvil.compiler.testing.compilation.Compile2Result
+import io.github.classgraph.AnnotationInfo
+import io.github.classgraph.AnnotationInfoList
 import io.github.classgraph.ClassInfo
 import io.github.classgraph.ScanResult
+import io.kotest.matchers.nulls.shouldNotBeNull
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 
@@ -46,6 +49,13 @@ public operator fun ClassLoader.get(fqName: FqName): Class<*> = loadClass(fqName
 public operator fun ClassLoader.get(fqName: String): Class<*> = loadClass(fqName)
 public operator fun ScanResult.get(fqName: FqName): ClassInfo = getClassInfo(fqName)
 public operator fun ScanResult.get(fqName: String): ClassInfo = getClassInfo(fqName)
+
+public operator fun AnnotationInfoList.get(fqName: FqName): AnnotationInfo {
+  return get(fqName.asString())
+}
+
+public val ClassInfo.daggerComponent: AnnotationInfo
+  get() = annotationInfo.get("dagger.Component").shouldNotBeNull()
 
 public val Compile2Result.contributingObject: Class<*>
   get() = classLoader.loadClass(CommonNames.contributingObject)

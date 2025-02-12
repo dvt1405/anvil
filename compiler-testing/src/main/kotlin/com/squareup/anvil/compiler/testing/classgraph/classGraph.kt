@@ -86,9 +86,9 @@ public fun ScanResult.allDaggerFactoryClasses(): List<DaggerFactoryClassInfo> {
  * ```
  */
 public fun ScanResult.allMergedModulesForComponent(
-  componentInterfaceName: String,
+  componentInterfaceName: FqName,
 ): List<ModuleClassInfo> {
-  val componentClass = loadClass(componentInterfaceName, false)
+  val componentClass = loadClass(componentInterfaceName.asString(), false)
   val annotation = componentClass.getAnnotation(Component::class.java)
 
   return annotation.modules.map { getClassInfo(it.java.name) as ModuleClassInfo }
