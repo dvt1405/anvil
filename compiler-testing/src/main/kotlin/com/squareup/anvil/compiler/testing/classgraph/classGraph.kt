@@ -5,6 +5,7 @@ import io.github.classgraph.AnnotationInfo
 import io.github.classgraph.ClassInfo
 import io.github.classgraph.HasName
 import io.github.classgraph.MethodInfo
+import io.github.classgraph.PackageInfo
 import io.github.classgraph.ScanResult
 import io.kotest.matchers.nulls.shouldNotBeNull
 import org.jetbrains.kotlin.name.FqName
@@ -183,16 +184,12 @@ public fun BindsMethodInfo.boundTypes(): Pair<ParameterTypeName, ReturnTypeName>
 
 public fun Collection<HasName>.fqNames(): List<FqName> = map { FqName(it.name) }
 
-public fun ScanResult.shouldContainClass(classFqName: String): ClassInfo {
-  return getClassInfo(classFqName).shouldNotBeNull()
-}
-
-public fun ScanResult.shouldContainClass(classFqName: FqName): ClassInfo {
-  return getClassInfo(classFqName).shouldNotBeNull()
-}
-
 public fun ScanResult.getClassInfo(fqName: FqName): ClassInfo =
   requireNotNull(getClassInfo(fqName.asString())) { "Class not found: $fqName" }
+
+public fun ScanResult.getPackageInfo(fqName: FqName): PackageInfo =
+  requireNotNull(getPackageInfo(fqName.asString())) { "Package not found: $fqName" }
+    .shouldNotBeNull()
 
 public fun ScanResult.getClassInfoOrNull(fqName: FqName): ClassInfo? =
   getClassInfo(fqName.asString())

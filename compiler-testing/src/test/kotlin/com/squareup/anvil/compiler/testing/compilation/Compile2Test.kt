@@ -5,8 +5,10 @@ import com.squareup.anvil.compiler.testing.CompilationMode
 import com.squareup.anvil.compiler.testing.CompilationModeTest
 import com.squareup.anvil.compiler.testing.TestNames
 import com.squareup.anvil.compiler.testing.classgraph.fqNames
+import com.squareup.anvil.compiler.testing.classgraph.shouldContainClass
 import com.squareup.anvil.compiler.testing.injectClassInfo
-import io.kotest.matchers.nulls.shouldNotBeNull
+import com.squareup.anvil.compiler.testing.squareupTest
+import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 import org.jetbrains.kotlin.fir.declarations.FirClassLikeDeclaration
 import org.jetbrains.kotlin.fir.declarations.utils.classId
@@ -15,6 +17,7 @@ import org.jetbrains.kotlin.fir.types.ConeKotlinType
 import org.jetbrains.kotlin.fir.types.FirResolvedTypeRef
 import org.jetbrains.kotlin.fir.types.constructClassLikeType
 import org.jetbrains.kotlin.name.ClassId
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 
 class Compile2Test : CompilationModeTest(
@@ -38,9 +41,7 @@ class Compile2Test : CompilationModeTest(
         ),
       ) {
 
-        val javaClass = classGraph.getClassInfo("com.squareup.test.JavaClass")
-
-        javaClass.shouldNotBeNull()
+        classGraph shouldContainClass CommonNames.javaClass
       }
     }
 
@@ -67,9 +68,7 @@ class Compile2Test : CompilationModeTest(
         ),
       ) {
 
-        val javaClass = classGraph.getClassInfo("com.squareup.test.JavaClass")
-
-        javaClass.shouldNotBeNull()
+        classGraph shouldContainClass CommonNames.javaClass
       }
     }
 
@@ -87,6 +86,8 @@ class Compile2Test : CompilationModeTest(
         class InjectClass @Inject constructor() 
         """,
       ) {
+
+        classGraph.squareupTest
 
         val testPackage = classGraph.getPackageInfo("com.squareup.test")
 
@@ -138,4 +139,10 @@ class Compile2Test : CompilationModeTest(
         injectClassInfo.interfaces.fqNames() shouldBe listOf(TestNames.parentInterface)
       }
     }
+
+  @Test
+  fun `contains assertion error`() {
+
+    listOf("dog", "cat", "mouse", "rat", "hamster") shouldContain "rats"
+  }
 }

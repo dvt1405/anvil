@@ -3,6 +3,7 @@ package com.squareup.anvil.compiler.testing
 import io.kotest.assertions.print.print
 import io.kotest.matchers.EqualityMatcherResult
 import io.kotest.matchers.Matcher
+import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.file.shouldExist
 import io.kotest.matchers.file.shouldNotExist
 import io.kotest.matchers.neverNullMatcher
@@ -33,21 +34,26 @@ public interface MoreAsserts {
   }
 
   public infix fun String?.shouldContain(substring: String): String? {
-    this should includeAsEquality(substring)
+    this should containAsEquality(substring)
+    return this
+  }
+
+  public infix fun <T> Iterable<T>.shouldContain(expected: T): Iterable<T> {
+    this should containAsEquality(expected)
     return this
   }
 }
 
 /**
- * This replaces Kotest's `include` so that it can return a different `MatcherResult`.
+ * This replaces Kotest's `contain` so that it can return a different `MatcherResult`.
  * The [EqualityMatcherResult] results in a different exception when it fails,
  * which enables the 'click to see difference' feature in IntelliJ.
  * That diff is much more legible.
  */
-private fun includeAsEquality(
+private fun containAsEquality(
   substring: String,
 ): Matcher<String?> = neverNullMatcher<String> { actual ->
-  EqualityMatcherResult.invoke(
+  EqualityMatcherResult(
     passed = actual.contains(substring),
     actual = actual,
     expected = substring,
@@ -56,6 +62,28 @@ private fun includeAsEquality(
     },
     negatedFailureMessageFn = {
       "${actual.print().value} should not include substring ${substring.print().value}"
+    },
+  )
+}
+
+/**
+ * This replaces Kotest's `contain` so that it can return a different `MatcherResult`.
+ * The [EqualityMatcherResult] results in a different exception when it fails,
+ * which enables the 'click to see difference' feature in IntelliJ.
+ * That diff is much more legible.
+ */
+private fun <T> containAsEquality(
+  expected: T,
+): Matcher<Iterable<T>> = neverNullMatcher<Iterable<T>> { actual ->
+  EqualityMatcherResult(
+    passed = actual.contains(expected),
+    actual = actual,
+    expected = expected,
+    failureMessageFn = {
+      "${actual.print().value} should include substring ${expected.print().value}"
+    },
+    negatedFailureMessageFn = {
+      "${actual.print().value} should not include substring ${expected.print().value}"
     },
   )
 }
