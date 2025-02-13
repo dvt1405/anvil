@@ -5,9 +5,9 @@ import com.squareup.anvil.compiler.testing.CompilationMode
 import com.squareup.anvil.compiler.testing.CompilationModeTest
 import com.squareup.anvil.compiler.testing.TestNames
 import com.squareup.anvil.compiler.testing.classgraph.fqNames
+import com.squareup.anvil.compiler.testing.classgraph.injectClass
 import com.squareup.anvil.compiler.testing.classgraph.shouldContainClass
-import com.squareup.anvil.compiler.testing.injectClassInfo
-import com.squareup.anvil.compiler.testing.squareupTest
+import com.squareup.anvil.compiler.testing.classgraph.squareupTest
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 import org.jetbrains.kotlin.fir.declarations.FirClassLikeDeclaration
@@ -41,7 +41,7 @@ class Compile2Test : CompilationModeTest(
         ),
       ) {
 
-        classGraph shouldContainClass CommonNames.javaClass
+        scanResult shouldContainClass TestNames.javaClass
       }
     }
 
@@ -68,7 +68,7 @@ class Compile2Test : CompilationModeTest(
         ),
       ) {
 
-        classGraph shouldContainClass CommonNames.javaClass
+        scanResult shouldContainClass TestNames.javaClass
       }
     }
 
@@ -87,9 +87,7 @@ class Compile2Test : CompilationModeTest(
         """,
       ) {
 
-        classGraph.squareupTest
-
-        val testPackage = classGraph.getPackageInfo("com.squareup.test")
+        val testPackage = scanResult.squareupTest
 
         testPackage.classInfoRecursive.names shouldBe setOf(
           "com.squareup.test.InjectClass",
@@ -136,7 +134,7 @@ class Compile2Test : CompilationModeTest(
         ),
       ) {
 
-        injectClassInfo.interfaces.fqNames() shouldBe listOf(TestNames.parentInterface)
+        scanResult.injectClass.interfaces.fqNames() shouldBe listOf(TestNames.parentInterface)
       }
     }
 
