@@ -32,13 +32,8 @@ public fun ClassInfo.getAnnotationInfo(fqName: FqName): AnnotationInfo? {
  * The classes are sorted by their name.
  *
  * ```
- * @TestFactory
- * fun `my test`() = testFactory {
- *   // ...
- *
- *   classGraph.allModuleClasses()
- *     .names() shouldBe listOf( /* ... */ )
- * }
+ * scanResult.allModuleClasses()
+ *   .names() shouldBe listOf("com.squareup.test.MyModule")
  * ```
  */
 public fun ScanResult.allModuleClasses(): List<ModuleClassInfo> {
@@ -52,13 +47,10 @@ public fun ScanResult.allModuleClasses(): List<ModuleClassInfo> {
  * The classes are sorted by their name.
  *
  * ```
- * @TestFactory
- * fun `my test`() = testFactory {
- *   // ...
- *
- *   classGraph.allDaggerFactoryClasses()
- *     .names() shouldBe listOf( /* ... */ )
- * }
+ * scanResult.allDaggerFactoryClasses().names() shouldBe listOf(
+ *     "com.squareup.test.ModuleA",
+ *     "com.squareup.test.ModuleB",
+ *   )
  * ```
  */
 public fun ScanResult.allDaggerFactoryClasses(): List<DaggerFactoryClassInfo> {
@@ -72,16 +64,11 @@ public fun ScanResult.allDaggerFactoryClasses(): List<DaggerFactoryClassInfo> {
  * of a specific [@Component][dagger.Component] annotation applied to [componentInterfaceName].
  *
  * ```
- * @TestFactory
- * fun `my test`() = testFactory {
- *   // ...
- *
- *   classGraph.allMergedModulesForComponent("com.squareup.test.AppComponent")
- *     .names() shouldBe listOf(
- *       "com.squareup.test.ModuleA",
- *       "com.squareup.test.ModuleB",
- *     )
- * }
+ * scanResult.allMergedModulesForComponent("com.squareup.test.AppComponent")
+ *   .names() shouldBe listOf(
+ *     "com.squareup.test.ModuleA",
+ *     "com.squareup.test.ModuleB",
+ *   )
  * ```
  */
 public fun ScanResult.allMergedModulesForComponent(
@@ -97,16 +84,11 @@ public fun ScanResult.allMergedModulesForComponent(
  * Returns all interfaces that are direct supertypes to [className].
  *
  * ```
- * @TestFactory
- * fun `my test`() = testFactory {
- *
- *   // ...
- *
- *   classGraph.allMergedModulesForComponent("com.squareup.test.AppComponent")
- *     .names() shouldBe listOf(
- *       "com.squareup.test.A",
- *       "com.squareup.test.B",
- *     )
+ * scanResult.allMergedModulesForComponent("com.squareup.test.AppComponent")
+ *   .names() shouldBe listOf(
+ *     "com.squareup.test.ComponentA",
+ *     "com.squareup.test.ComponentB",
+ *   )
  * }
  * ```
  */
@@ -121,13 +103,12 @@ public fun ScanResult.allDirectInterfaces(className: String): List<ClassInfo> {
  * The methods are sorted by their name.
  *
  * ```
- * @TestFactory
- * fun `my test`() = testFactory {
- *   // ...
- *
- *   classGraph.allBindsMethods()
- *     .names() shouldBe listOf( /* ... */ )
- * }
+ * scanResult.allBindsMethods()
+ *   .names() shouldBe listOf(
+ *     "com.squareup.test.ModuleA.bindFoo",
+ *     "com.squareup.test.ModuleA.provideBar",
+ *     "com.squareup.test.ModuleB.bindBaz",
+ *   )
  * ```
  */
 public fun ScanResult.allBindsMethods(): List<BindsMethodInfo> {
@@ -143,12 +124,7 @@ public fun ScanResult.allBindsMethods(): List<BindsMethodInfo> {
  * The pairs are sorted by the parameter type.
  *
  * ```
- * @TestFactory
- * fun `my test`() = testFactory {
- *   // ...
- *
- *   classGraph.allBoundTypes() shouldBe listOf("com.example.FooImpl" to "com.example.Foo")
- * }
+ * scanResult.allBoundTypes() shouldBe listOf("com.example.FooImpl" to "com.example.Foo")
  * ```
  */
 public fun ScanResult.allBoundTypes(): List<Pair<ParameterTypeName, ReturnTypeName>> {

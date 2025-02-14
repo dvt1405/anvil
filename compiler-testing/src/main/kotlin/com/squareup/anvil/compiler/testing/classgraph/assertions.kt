@@ -16,6 +16,7 @@ public infix fun ScanResult.shouldContainClass(
 public infix fun ScanResult.shouldContainPackage(packageFqName: String): PackageInfo = getPackageInfo(
   packageFqName,
 ).shouldNotBeNull()
+
 public infix fun ScanResult.shouldContainPackage(
   packageFqName: FqName,
 ): PackageInfo = getPackageInfo(packageFqName).shouldNotBeNull()

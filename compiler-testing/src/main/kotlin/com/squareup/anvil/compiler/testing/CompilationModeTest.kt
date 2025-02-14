@@ -57,7 +57,8 @@ public abstract class CompilationModeTest(
   Kase1<CompilationMode>,
   CompilationModeTestEnvironment,
   ParamTestEnvironmentFactory<Kase1<CompilationMode>, CompilationModeTestEnvironment>,
-  > {
+  >,
+  MoreAsserts {
 
   public fun test(
     mode: CompilationMode,

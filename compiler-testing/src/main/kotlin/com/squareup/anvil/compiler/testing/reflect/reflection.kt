@@ -3,6 +3,7 @@ package com.squareup.anvil.compiler.testing.reflect
 import com.squareup.anvil.annotations.ExperimentalAnvilApi
 import com.squareup.anvil.compiler.testing.TestNames
 import io.kotest.matchers.nulls.shouldNotBeNull
+import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import java.lang.reflect.AccessibleObject
 import java.lang.reflect.Field
@@ -38,6 +39,16 @@ public fun FqName.loadClass(classLoader: ClassLoader): Class<*> {
 
 public fun ClassLoader.loadClass(fqName: FqName): Class<*> = loadClass(fqName.asString())
 public fun ClassLoader.loadClassOrNull(fqName: FqName): Class<*>? = try {
+  loadClass(fqName.asString())
+} catch (e: ClassNotFoundException) {
+  null
+}
+
+public fun ClassLoader.loadClass(classId: ClassId): Class<*> {
+  return loadClass(classId.asSingleFqName().javaClass)::class
+}
+
+public fun ClassLoader.loadClassOrNull(classId: ClassId): Class<*>? = try {
   loadClass(fqName.asString())
 } catch (e: ClassNotFoundException) {
   null

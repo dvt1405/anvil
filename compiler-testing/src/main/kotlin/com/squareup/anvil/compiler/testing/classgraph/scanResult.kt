@@ -50,8 +50,8 @@ public val ScanResult.contributingInterface: ClassInfo
   get() = getClassInfo(TestNames.contributingInterface)
 public val ScanResult.secondContributingInterface: ClassInfo
   get() = getClassInfo(TestNames.secondContributingInterface)
-public val ScanResult.`someClass$InnerInterface`: ClassInfo
-  get() = getClassInfo(TestNames.`someClass$InnerInterface`)
+public val ScanResult.someClassInnerInterface: ClassInfo
+  get() = getClassInfo(TestNames.someClassInnerInterface)
 public val ScanResult.parentInterface: ClassInfo
   get() = getClassInfo(TestNames.parentInterface)
 public val ScanResult.parentInterface1: ClassInfo
@@ -74,10 +74,10 @@ public val ScanResult.daggerModule3: ClassInfo
   get() = getClassInfo(TestNames.daggerModule3)
 public val ScanResult.daggerModule4: ClassInfo
   get() = getClassInfo(TestNames.daggerModule4)
-public val ScanResult.`componentInterface$InnerModule`: ClassInfo
-  get() = getClassInfo(TestNames.`componentInterface$InnerModule`)
-public val ScanResult.`parentClass$NestedInjectClass`: ClassInfo
-  get() = getClassInfo(TestNames.`parentClass$NestedInjectClass`)
+public val ScanResult.componentInterfacInnerModule: ClassInfo
+  get() = getClassInfo(TestNames.componentInterfaceInnerModule)
+public val ScanResult.parentClassNestedInjectClass: ClassInfo
+  get() = getClassInfo(TestNames.parentClassNestedInjectClass)
 public val ScanResult.injectClass: ClassInfo
   get() = getClassInfo(TestNames.injectClass)
 public val ScanResult.injectClass_Factory: ClassInfo

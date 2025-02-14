@@ -8,7 +8,6 @@ import com.squareup.anvil.compiler.testing.classgraph.fqNames
 import com.squareup.anvil.compiler.testing.classgraph.injectClass
 import com.squareup.anvil.compiler.testing.classgraph.shouldContainClass
 import com.squareup.anvil.compiler.testing.classgraph.squareupTest
-import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 import org.jetbrains.kotlin.fir.declarations.FirClassLikeDeclaration
 import org.jetbrains.kotlin.fir.declarations.utils.classId
@@ -17,7 +16,6 @@ import org.jetbrains.kotlin.fir.types.ConeKotlinType
 import org.jetbrains.kotlin.fir.types.FirResolvedTypeRef
 import org.jetbrains.kotlin.fir.types.constructClassLikeType
 import org.jetbrains.kotlin.name.ClassId
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 
 class Compile2Test : CompilationModeTest(
@@ -137,10 +135,4 @@ class Compile2Test : CompilationModeTest(
         scanResult.injectClass.interfaces.fqNames() shouldBe listOf(TestNames.parentInterface)
       }
     }
-
-  @Test
-  fun `contains assertion error`() {
-
-    listOf("dog", "cat", "mouse", "rat", "hamster") shouldContain "rats"
-  }
 }
